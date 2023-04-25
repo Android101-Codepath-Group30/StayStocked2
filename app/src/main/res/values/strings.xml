@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">StayStock2</string>
     <string name="search_text">Search</string>
+    <string name="category">Category</string>
+    <string name="price">Price</string>
+    <string name="brand">Brand</string>
+    <string name="product_name">Product Name</string>
 </resources>
