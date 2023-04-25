@@ -1,0 +1,263 @@
+Here's a skeleton file structure for your Android app using Kotlin:
+
+```
+StayStocked/
+|-- .gitignore
+|-- app/
+|   |-- src/
+|   |   |-- main/
+|   |   |   |-- java/
+|   |   |   |   |-- com.example.staystocked/
+|   |   |   |   |   |-- MainActivity.kt
+|   |   |   |   |   |-- database/
+|   |   |   |   |   |   |-- AppDatabase.kt
+|   |   |   |   |   |   |-- ProductDao.kt
+|   |   |   |   |   |-- models/
+|   |   |   |   |   |   |-- Product.kt
+|   |   |   |   |   |-- adapters/
+|   |   |   |   |   |   |-- ProductListAdapter.kt
+|   |   |   |   |   |-- viewmodels/
+|   |   |   |   |   |   |-- ProductViewModel.kt
+|   |   |   |   |   |-- repositories/
+|   |   |   |   |   |   |-- ProductRepository.kt
+|   |   |   |   |   |-- api/
+|   |   |   |   |   |   |-- KrogerApiService.kt
+|   |   |   |   |   |   |-- KrogerApiInterface.kt
+|   |   |   |-- res/
+|   |   |   |   |-- layout/
+|   |   |   |   |   |-- activity_main.xml
+|   |   |   |   |   |-- item_product.xml
+|   |   |   |   |-- values/
+|   |   |   |   |   |-- strings.xml
+|   |   |   |   |   |-- colors.xml
+|   |   |   |   |   |-- dimens.xml
+|   |   |   |   |-- values-night/
+|   |   |   |   |   |-- colors.xml
+|   |-- build.gradle
+|-- build.gradle
+|-- gradle.properties
+|-- settings.gradle
+```
+
+This is a high-level file structure for your StayStocked app. You'll have a MainActivity that serves as the entry point for your app, and it will include the necessary view components for searching, filtering, and displaying results. The "database" package will contain classes to work with the Room database for local storage. The "models" package will have your data class, "Product", to represent each grocery item.
+
+The "adapters" package will contain a custom RecyclerView adapter (ProductListAdapter) to display the list of products. The "viewmodels" package will include the ProductViewModel class that interacts with the ProductRepository to fetch data from the API and the database. The "repositories" package will have the ProductRepository class to handle data operations, like fetching data from the Kroger API and saving it to the local database.
+
+Finally, the "api" package will have two classes related to the Kroger API: KrogerApiService and KrogerApiInterface. These classes will be responsible for fetching product data from the Kroger API. The "res" folder will contain layout files, values files for strings, colors, and dimensions, as well as a separate colors file for night mode.
+
+Here is a demo template code for each file under the `com.example.staystocked` folder:
+
+1. MainActivity.kt
+
+```kotlin
+package com.example.staystocked
+
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import androidx.lifecycle.ViewModelProvider
+import com.example.staystocked.viewmodels.ProductViewModel
+
+class MainActivity : AppCompatActivity() {
+
+    private lateinit var productViewModel: ProductViewModel
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        productViewModel = ViewModelProvider(this).get(ProductViewModel::class.java)
+    }
+}
+```
+
+2. AppDatabase.kt
+
+```kotlin
+package com.example.staystocked.database
+
+import androidx.room.Database
+import androidx.room.RoomDatabase
+import com.example.staystocked.models.Product
+
+@Database(entities = [Product::class], version = 1)
+abstract class AppDatabase : RoomDatabase() {
+    abstract fun productDao(): ProductDao
+}
+```
+
+3. ProductDao.kt
+
+```kotlin
+package com.example.staystocked.database
+
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import com.example.staystocked.models.Product
+
+@Dao
+interface ProductDao {
+    @Query("SELECT * FROM product")
+    fun getAll(): List<Product>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insert(product: Product)
+}
+```
+
+4. Product.kt
+
+```kotlin
+package com.example.staystocked.models
+
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity
+data class Product(
+    @PrimaryKey val id: String,
+    val name: String,
+    val brand: String,
+    val price: Double,
+    val expirationDate: String
+)
+```
+
+5. ProductListAdapter.kt
+
+```kotlin
+package com.example.staystocked.adapters
+
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
+import com.example.staystocked.R
+import com.example.staystocked.models.Product
+
+class ProductListAdapter(private val productList: List<Product>) :
+    RecyclerView.Adapter<ProductListAdapter.ViewHolder>() {
+
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val productName: TextView = itemView.findViewById(R.id.product_name)
+        val productBrand: TextView = itemView.findViewById(R.id.product_brand)
+        val productPrice: TextView = itemView.findViewById(R.id.product_price)
+        val productExpirationDate: TextView = itemView.findViewById(R.id.product_expiration_date)
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.item_product, parent, false)
+        return ViewHolder(view)
+    }
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val product = productList[position]
+        holder.productName.text = product.name
+        holder.productBrand.text = product.brand
+        holder.productPrice.text = product.price.toString()
+        holder.productExpirationDate.text = product.expirationDate
+    }
+
+    override fun getItemCount(): Int {
+        return productList.size
+    }
+}
+```
+
+6. ProductViewModel.kt
+
+```kotlin
+package com.example.staystocked.viewmodels
+
+import androidx.lifecycle.ViewModel
+import com.example.staystocked.models.Product
+import com.example.staystocked.repositories.ProductRepository
+
+class ProductViewModel : ViewModel() {
+    private val productRepository = ProductRepository()
+
+    fun searchProducts(query: String) {
+        productRepository.searchProducts(query)
+    }
+
+    fun getProducts(): List<Product> {
+        return productRepository.getProducts()
+    }
+}
+```
+
+7. ProductRepository.kt
+
+```kotlin
+package com.example.staystocked.repositories
+
+import com.example.staystocked.api.KrogerApiInterface
+import com.example.staystocked.api.KrogerApiService
+import com.example.staystocked.models.Product
+
+class ProductRepository {
+
+    private val krogerApiInterface: KrogerApiInterface = KrogerApiService().create()
+
+    suspend fun searchProducts(query: String) {
+        // TODO: Implement the logic for fetching products from the Kroger API using the query
+    }
+
+    fun getProducts(): List<Product> {
+        // TODO: Implement the logic for getting products from the local database
+        return emptyList()
+    }
+}
+```
+
+8. KrogerApiService.kt
+
+```kotlin
+package com.example.staystocked.api
+
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+
+class KrogerApiService {
+    private val baseUrl = "https://api.kroger.com/"
+
+    fun create(): KrogerApiInterface {
+        val retrofit = Retrofit.Builder()
+            .baseUrl(baseUrl)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        return retrofit.create(KrogerApiInterface::class.java)
+    }
+}
+```
+
+9. KrogerApiInterface.kt
+
+```kotlin
+package com.example.staystocked.api
+
+import com.example.staystocked.models.Product
+import retrofit2.Response
+import retrofit2.http.GET
+import retrofit2.http.Query
+
+interface KrogerApiInterface {
+
+    @GET("v1/products")
+    suspend fun searchProducts(
+        @Query("filter.term") query: String,
+        @Query("filter.limit") limit: Int = 20
+    ): Response<List<Product>>
+
+    // Add other necessary API endpoints here
+}
+```
+
+This completes the demo template code for each file under the `com.example.staystocked` folder. Please note that the code provided is a basic template and may need modifications and further implementation based on your requirements.
+
+
+
