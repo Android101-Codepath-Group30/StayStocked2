@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">StayStock2</string>
+    <string name="search_text">Search</string>
 </resources>
