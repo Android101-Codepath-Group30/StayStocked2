@@ -66,9 +66,40 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    private fun getFoodInfoAsy(){
+        val  userProductItemQuery = "milk"
+        val foodURL = "https://api.kroger.com/v1/products?filter.term=$userProductItemQuery&filter.item=10"
+        val client = AsyncHttpClient()
+
+        client[foodURL, object : JsonHttpResponseHandler() {
+            override fun onSuccess(
+                statusCode: Int,
+                headers: Headers,
+                json: JsonHttpResponseHandler.JSON
+            ) {
+                Log.d("Autho Food JSON", "query response successful $json")
+
+                val dataObject = json.jsonObject.getJSONObject("data")
+
+
+            }
+
+            override fun onFailure(
+                statusCode: Int,
+                headers: Headers?,
+                errorResponse: String,
+                throwable: Throwable?
+            ) {
+                Log.d("Autho Food Error", errorResponse)
+            }
+        }]
+
+    }
+
 
    private fun getFoodInfo(){
-        val foodURL = "https://api.kroger.com/v1/products?filter.term=milk&filter.item=3"
+        val  userProductItemQuery = "milk"
+        val foodURL = "https://api.kroger.com/v1/products?filter.term=$userProductItemQuery&filter.item=10"
         val client = OkHttpClient()
 
         val request = Request.Builder()
@@ -87,8 +118,41 @@ class MainActivity : AppCompatActivity() {
             override fun onResponse(call: Call, response: Response) {
                 if (response.isSuccessful) {
                     val responseBody = response.body?.string()
-                    // Parse the JSON response
+                    // Parse the response to JSON Object
                     Log.d("Autho Food Response success", "$responseBody")
+                    val jsonObject = JSONObject(responseBody)
+                    Log.d("Autho Food Json", "$jsonObject")
+
+                    //Get Data
+                    val data = jsonObject.getJSONArray("data")
+                    Log.d("Autho Food data", "$data")
+
+                    //Get info from first item out of 10
+                    val firstItem = data.getJSONObject(0);
+                    Log.d("Autho Food First Item", "$firstItem")
+
+                    //Get productName
+                    val productName = firstItem.optString("description").toString()
+                    Log.d("Autho Food Description", "$productName")
+
+                    //Get BrandName
+                    val brandName = firstItem.optString("brand").toString()
+                    Log.d("Autho Food Description", "$brandName")
+
+                    //Price is missing in jsonobject
+                    val price = firstItem.getJSONArray("items")
+                    Log.d("Autho Price", "$price")
+
+                    //image
+                    val imageJSONObject = firstItem.getJSONArray("images").getJSONObject(0)
+                    val imageSizes = imageJSONObject.getJSONArray("sizes")
+                    val imageInfo = imageSizes.getJSONObject(1)
+                    val imgURL = imageInfo.optString("url")
+                    Log.d("Autho Image JSON Object", "$imageJSONObject")
+                    Log.d("Autho Image Sizes", "$imageSizes")
+                    Log.d("Autho Image Thumbnail Info", "$imageInfo")
+                    Log.d("Autho Image url", "$imgURL")
+
                 } else {
                     // Handle error
                     Log.d("Autho Food Response Error", "error")
