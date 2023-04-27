@@ -25,7 +25,8 @@ class ProductAdapter(private val products: List<Product>) : RecyclerView.Adapter
 
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
         val product = products[position]
-        holder.productName.text = product.name
+        val cleanedProductName = product.name.replace(Regex("[^A-Za-z0-9 ]"), "_")
+        holder.productName.text = cleanedProductName
         holder.category.text = product.category
         holder.productBrand.text = product.brand
         holder.productSize.text = product.size
