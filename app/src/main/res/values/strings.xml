@@ -5,4 +5,6 @@
     <string name="price">Price</string>
     <string name="brand">Brand</string>
     <string name="product_name">Product Name</string>
+    <string name="staystock">StayStock</string>
+    <string name="start">Let\'s get started</string>
 </resources>
