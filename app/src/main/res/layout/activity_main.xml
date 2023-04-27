@@ -17,7 +17,7 @@
         android:id="@+id/heading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="10dp"
         android:fontFamily="@font/fredoka_one"
         android:includeFontPadding="true"
         android:text="@string/staystock"
@@ -88,25 +88,13 @@
     </RadioGroup>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/itemsList"
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="574dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="@id/background_view"
         app:layout_constraintStart_toStartOf="@id/background_view"
-        app:layout_constraintBottom_toBottomOf="@id/background_view"
         app:layout_constraintTop_toBottomOf="@+id/radioGrp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-    <!--    <ImageView-->
-    <!--        android:id="@+id/search_icon"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_marginEnd="10dp"-->
-    <!--        app:layout_constraintBottom_toBottomOf="@id/search_bar"-->
-    <!--        app:layout_constraintEnd_toStartOf="@id/search_bar"-->
-    <!--        app:layout_constraintTop_toTopOf="@id/search_bar"-->
-    <!--        app:srcCompat="@drawable/search_icon"-->
-    <!--        tools:layout_editor_absoluteX="36dp"-->
-    <!--        tools:layout_editor_absoluteY="25dp" />-->
