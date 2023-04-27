@@ -7,75 +7,106 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <View
+        android:id="@+id/background_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/brandSecond1" />
+
+    <TextView
+        android:id="@+id/heading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/fredoka_one"
+        android:includeFontPadding="true"
+        android:text="@string/staystock"
+        android:textAlignment="center"
+        android:textColor="@color/brand1"
+        android:textSize="40sp"
+        app:layout_constraintEnd_toEndOf="@id/background_view"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="@id/background_view"
+        app:layout_constraintTop_toTopOf="@id/background_view" />
+
+
 
     <EditText
         android:id="@+id/search_bar"
         android:layout_width="294dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/search_rectangle"
+        android:layout_height="48dp"
+        android:layout_marginTop="52dp"
+        android:background="@drawable/rounded_corner"
+        android:drawableStart="@drawable/ic_search_foreground"
         android:ems="10"
+        android:hint="@string/search_text"
         android:inputType="text"
         android:padding="5dp"
-        android:hint="@string/search_text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.581"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/search_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
-        app:layout_constraintBottom_toBottomOf="@id/search_bar"
-        app:layout_constraintEnd_toStartOf="@id/search_bar"
-        app:layout_constraintTop_toTopOf="@id/search_bar"
-        app:srcCompat="@drawable/search_icon"
-        tools:layout_editor_absoluteX="36dp"
-        tools:layout_editor_absoluteY="25dp" />
+        android:textColorHint="@color/brandHint1"
+        app:layout_constraintEnd_toEndOf="@id/background_view"
+        app:layout_constraintStart_toStartOf="@id/background_view"
+        app:layout_constraintTop_toTopOf="@id/heading" />
 
     <RadioGroup
         android:id="@+id/radioGrp"
-        android:layout_width="245dp"
+        android:layout_width="294dp"
         android:layout_height="54dp"
-        android:layout_marginTop="20dp"
-        android:background="@color/grey"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/rounded_corner"
         android:orientation="horizontal"
         app:circularflow_radiusInDP="30dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/background_view"
+        app:layout_constraintStart_toStartOf="@id/background_view"
         app:layout_constraintTop_toBottomOf="@id/search_bar">
 
         <RadioButton
             android:id="@+id/radioBrand"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:buttonTint="@color/black"
-            android:layout_marginEnd="40dp"
-            android:text="@string/brand" />
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="20dp"
+            android:layout_weight="1"
+            android:buttonTint="@color/brandSecond1"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="@string/brand"
+            android:textAlignment="center"
+            android:textColor="@color/white" />
 
         <RadioButton
             android:id="@+id/radioCategory"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center_horizontal"
             android:layout_marginEnd="20dp"
-            android:buttonTint="@color/black"
+            android:layout_weight="1"
+            android:gravity="center_vertical|center_horizontal"
+            android:buttonTint="@color/brandSecond1"
             android:checked="true"
-            android:text="@string/category" />
+            android:text="@string/category"
+            android:textAlignment="center"
+            android:textColor="@color/white"/>
 
     </RadioGroup>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/itemsList"
-        android:layout_width="409dp"
-        android:layout_height="594dp"
+        android:layout_width="match_parent"
+        android:layout_height="574dp"
         android:layout_marginTop="20dp"
         android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/background_view"
+        app:layout_constraintStart_toStartOf="@id/background_view"
+        app:layout_constraintBottom_toBottomOf="@id/background_view"
         app:layout_constraintTop_toBottomOf="@+id/radioGrp" />
 
-
 </androidx.constraintlayout.widget.ConstraintLayout>
+    <!--    <ImageView-->
+    <!--        android:id="@+id/search_icon"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginEnd="10dp"-->
+    <!--        app:layout_constraintBottom_toBottomOf="@id/search_bar"-->
+    <!--        app:layout_constraintEnd_toStartOf="@id/search_bar"-->
+    <!--        app:layout_constraintTop_toTopOf="@id/search_bar"-->
+    <!--        app:srcCompat="@drawable/search_icon"-->
+    <!--        tools:layout_editor_absoluteX="36dp"-->
+    <!--        tools:layout_editor_absoluteY="25dp" />-->
