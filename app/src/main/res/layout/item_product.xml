@@ -6,38 +6,41 @@
     android:layout_height="wrap_content"
     android:padding="8dp">
 
+
+    <ImageView
+        android:id="@+id/product_image"
+        android:layout_height="120dp"
+        android:layout_width="120dp"
+        android:layout_marginTop="10dp"
+        android:scaleType="centerCrop"
+        android:background="@drawable/rounded_corner"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@tools:sample/avatars" />
+
     <TextView
         android:id="@+id/category"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="10dp"
+        android:text="@string/category"
         android:textColor="@color/brand1"
         android:textSize="16sp"
-        android:text="@string/category"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
-
-    <ImageView
-        android:id="@+id/product_image"
-        android:layout_width="80dp"
-        android:layout_marginTop="10dp"
-        android:layout_height="80dp"
-        android:scaleType="centerCrop"
-        android:background="@drawable/rounded_corner"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/category"
-        tools:src="@tools:sample/avatars" />
+        app:layout_constraintStart_toEndOf="@id/product_image"
+        app:layout_constraintTop_toTopOf="@id/product_image" />
 
     <TextView
         android:id="@+id/product_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
         android:text="@string/product_name"
         android:textColor="@color/black"
         android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="@id/product_image"
-        app:layout_constraintTop_toBottomOf="@id/product_image" />
+        app:layout_constraintStart_toEndOf="@id/product_image"
+        app:layout_constraintTop_toBottomOf="@id/category" />
 
     <TextView
         android:id="@+id/product_brand"
@@ -46,17 +49,17 @@
         android:layout_marginTop="4dp"
         android:textSize="14sp"
         android:text="@string/brand"
-        android:textColor="@color/grey"
+        android:textColor="@color/dark_grey"
         app:layout_constraintStart_toStartOf="@+id/product_name"
         app:layout_constraintTop_toBottomOf="@+id/product_name" />
 
     <TextView
-        android:id="@+id/product_price"
+        android:id="@+id/product_size"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:textSize="14sp"
-        android:text="@string/price"
+        android:text="@string/size"
         android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="@+id/product_brand"
         app:layout_constraintTop_toBottomOf="@+id/product_brand" />

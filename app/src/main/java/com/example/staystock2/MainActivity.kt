@@ -3,6 +3,8 @@ package com.example.staystock2
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.codepath.asynchttpclient.AsyncHttpClient
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler
 import okhttp3.*
@@ -13,11 +15,24 @@ import java.io.IOException
 
 class MainActivity : AppCompatActivity() {
 
+//    below is for recyclerview
+
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var searchText: String
+    private val productList = mutableListOf<Product>()
+
+//    below is for api call
+
     var accessToken = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        // initialize the recyclerview with the productadapter
+        recyclerView = findViewById(R.id.recyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.adapter = ProductAdapter(productList)
 
         getAuthorization()
     }
@@ -124,38 +139,61 @@ class MainActivity : AppCompatActivity() {
                     Log.d("Autho Food Json", "$jsonObject")
 
                     //Get Data
+                    //Update the onResponse method in getFoodInfo()
+                    // to populate the productList with the data from the API and update the RecyclerView:
                     val data = jsonObject.getJSONArray("data")
-                    Log.d("Autho Food data", "$data")
 
-                    //Get info from first item out of 10
-                    val firstItem = data.getJSONObject(0);
-                    Log.d("Autho Food First Item", "$firstItem")
+                    for (i in 0 until data.length()) {
+                        val item = data.getJSONObject(i)
 
-                    //Get productName
-                    val productName = firstItem.optString("description").toString()
-                    Log.d("Autho Food Description", "$productName")
+                        val productName = item.optString("description")
+                        val brandName = item.optString("brand")
+                        val productSize = item.getJSONArray("items").getJSONObject(0).optString("size") // Use first item for size
+                        val categoryId = item.optString("categoryId")
+                        val category = "Category" // Replace this with an actual category lookup based on categoryId
 
-                    //Get BrandName
-                    val brandName = firstItem.optString("brand").toString()
-                    Log.d("Autho Food Description", "$brandName")
+                        val imageJSONObject = item.getJSONArray("images").getJSONObject(0)
+                        val imageSizes = imageJSONObject.getJSONArray("sizes")
+                        val imageInfo = imageSizes.getJSONObject(1)
+                        val imageUrl = imageInfo.optString("url")
 
-                    //Price is missing in jsonobject
-                    val price = firstItem.getJSONArray("items")
-                    Log.d("Autho Price", "$price")
+                        productList.add(Product(productName, brandName, productSize, imageUrl, category, imageUrl))
+                    }
 
-                    //image
-                    val imageJSONObject = firstItem.getJSONArray("images").getJSONObject(0)
-                    val imageSizes = imageJSONObject.getJSONArray("sizes")
-                    val imageInfo = imageSizes.getJSONObject(1)
-                    val imgURL = imageInfo.optString("url")
-                    Log.d("Autho Image JSON Object", "$imageJSONObject")
-                    Log.d("Autho Image Sizes", "$imageSizes")
-                    Log.d("Autho Image Thumbnail Info", "$imageInfo")
-                    Log.d("Autho Image url", "$imgURL")
-
-                } else {
-                    // Handle error
-                    Log.d("Autho Food Response Error", "error")
+                    runOnUiThread {
+                        recyclerView.adapter?.notifyDataSetChanged()
+                    }
+//                    Log.d("Autho Food data", "$data")
+//
+//                    //Get info from first item out of 10
+//                    val firstItem = data.getJSONObject(0);
+//                    Log.d("Autho Food First Item", "$firstItem")
+//
+//                    //Get productName
+//                    val productName = firstItem.optString("description").toString()
+//                    Log.d("Autho Food Description", "$productName")
+//
+//                    //Get BrandName
+//                    val brandName = firstItem.optString("brand").toString()
+//                    Log.d("Autho Food Description", "$brandName")
+//
+//                    //Price is missing in jsonobject
+//                    val price = firstItem.getJSONArray("items")
+//                    Log.d("Autho Price", "$price")
+//
+//                    //image
+//                    val imageJSONObject = firstItem.getJSONArray("images").getJSONObject(0)
+//                    val imageSizes = imageJSONObject.getJSONArray("sizes")
+//                    val imageInfo = imageSizes.getJSONObject(1)
+//                    val imgURL = imageInfo.optString("url")
+//                    Log.d("Autho Image JSON Object", "$imageJSONObject")
+//                    Log.d("Autho Image Sizes", "$imageSizes")
+//                    Log.d("Autho Image Thumbnail Info", "$imageInfo")
+//                    Log.d("Autho Image url", "$imgURL")
+//
+//                } else {
+//                    // Handle error
+//                    Log.d("Autho Food Response Error", "error")
                 }
             }
         })

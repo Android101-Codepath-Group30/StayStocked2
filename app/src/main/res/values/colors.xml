@@ -15,4 +15,5 @@
     <color name="brandHint1">#B5CAF4</color>
     <color name="brandSecond1">#CDFFD8</color>
     <color name="grey">#C6C5C5</color>
+    <color name="dark_grey">#374151</color>
 </resources>
