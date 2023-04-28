@@ -86,10 +86,11 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        // initialize the recyclerview with the productadapter
+       // initialize the recyclerview with the productadapter
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = ProductAdapter(productList)
+
+
 
         // Get the authorization and update the product list for the first time
         getAuthorization()
