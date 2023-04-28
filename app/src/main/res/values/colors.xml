@@ -8,12 +8,16 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="brand">#0097B2</color>
-    <color name="brandHint">#66C9DB</color>
-    <color name="brandSecond">#7ED957</color>
+<!--    <color name="brandHint">#66C9DB</color>-->
+<!--    <color name="brandSecond">#7ED957</color>-->
     <color name="brandSecondVariant">#99E265</color>
     <color name="brand1">#94B9FF</color>
     <color name="brandHint1">#B5CAF4</color>
     <color name="brandSecond1">#CDFFD8</color>
+    <color name="brandDark">#596E96</color>
+    <color name="brandVariantDark">#1F2532</color>
+    <color name="brandSecondDark">#26382A</color>
+    <color name="brandSecondVariantDark">#719679</color>
     <color name="grey">#C6C5C5</color>
     <color name="dark_grey">#374151</color>
 </resources>
