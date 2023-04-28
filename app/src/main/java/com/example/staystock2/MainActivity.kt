@@ -22,7 +22,7 @@ import android.view.ViewGroup
 import android.widget.PopupWindow
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
-
+import androidx.recyclerview.widget.DividerItemDecoration
 
 
 class MainActivity : AppCompatActivity() {
@@ -98,6 +98,7 @@ class MainActivity : AppCompatActivity() {
         // initialize the recyclerview with the productadapter
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.addItemDecoration(DividerItemDecoration(this@MainActivity, LinearLayoutManager.VERTICAL))
 
         // Set up the tooltip for the added items
         val tooltipText = addedProductNames.joinToString(separator = "\n")
