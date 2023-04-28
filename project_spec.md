@@ -99,10 +99,13 @@ process, or what you learned this unit!
 
 For Milestone 2, include **2+ GIFs** of the build process here!
 
+<img src="https://github.com/Android101-Codepath-Group30/StayStocked2/blob/main/demoAssets/UI_stay_stock.png" width=600>
+
 GIF One
+<img src="https://github.com/Android101-Codepath-Group30/StayStocked2/blob/main/demoAssets/search-toast.gif" width=600>
 
 GIF Two
-
+<img src="https://github.com/Android101-Codepath-Group30/StayStocked2/blob/main/demoAssets/StayStock2_thirdrun.gif" width=600>
 
 ## License
 
