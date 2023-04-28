@@ -7,4 +7,6 @@
     <string name="product_name">Product Name</string>
     <string name="staystock">StayStocked</string>
     <string name="start">Let\'s get started</string>
+    <string name="add_to_list">Add to List</string>
+    <string name="added_to_list">Added %s to list</string>
 </resources>

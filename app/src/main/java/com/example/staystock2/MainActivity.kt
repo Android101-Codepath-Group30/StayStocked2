@@ -2,11 +2,14 @@ package com.example.staystock2
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.RadioButton
 import android.widget.RadioGroup
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.TooltipCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.codepath.asynchttpclient.AsyncHttpClient
@@ -14,11 +17,18 @@ import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler
 import okhttp3.*
 import org.json.JSONObject
 import java.io.IOException
-
+import android.view.Gravity
+import android.view.ViewGroup
+import android.widget.PopupWindow
+import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 
 
 class MainActivity : AppCompatActivity() {
+    lateinit var builder: AlertDialog.Builder
 
+    private lateinit var productAdapter: ProductAdapter
+    private val addedProductNames = mutableListOf<String>()
 
 //    below is for recyclerview
 
@@ -38,6 +48,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        builder = AlertDialog.Builder(this)
 
         // initialize the search bar and radio buttons
         searchBar = findViewById(R.id.search_bar)
@@ -70,7 +81,35 @@ class MainActivity : AppCompatActivity() {
         // initialize the recyclerview with the productadapter
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = ProductAdapter(productList)
+
+        // Set up the tooltip for the added items
+        val tooltipText = addedProductNames.joinToString(separator = "\n")
+        val tooltipTextView = TextView(this).apply {
+            text = tooltipText
+            setPadding(
+                resources.getDimensionPixelOffset(R.dimen.spacing_small),
+                resources.getDimensionPixelOffset(R.dimen.spacing_small),
+                resources.getDimensionPixelOffset(R.dimen.spacing_small),
+                resources.getDimensionPixelOffset(R.dimen.spacing_small)
+            )
+            setBackgroundResource(R.drawable.tooltip_background) // Create a custom background for the tooltip
+        }
+
+        val tooltip = PopupWindow(tooltipTextView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
+            isOutsideTouchable = true
+            isFocusable = true
+        }
+
+// Show the tooltip when the list button is clicked
+        findViewById<View>(R.id.list_tooltip).setOnClickListener {
+            tooltip.showAsDropDown(it, 0, 0, Gravity.TOP or Gravity.START)
+        }
+
+        // Set up the adapter for the recyclerview
+        recyclerView.adapter = ProductAdapter(this, productList) { productName ->
+            addedProductNames.add(productName)
+            Toast.makeText(this, "$productName added to list", Toast.LENGTH_SHORT).show()
+        }
 
         // Get the authorization and update the product list for the first time
         getAuthorization()
@@ -201,9 +240,16 @@ class MainActivity : AppCompatActivity() {
                         productList.add(Product(productId, productName, brandName, category, productSize, imageUrl))
                     }
 
-                    runOnUiThread {
-                        recyclerView.adapter?.notifyDataSetChanged()
+                    this@MainActivity.runOnUiThread {
+                        recyclerView.adapter = ProductAdapter(this@MainActivity, productList) { productName ->
+                            addedProductNames.add(productName)
+                            Toast.makeText(this@MainActivity, "$productName added to list", Toast.LENGTH_SHORT).show()
+                        }
                     }
+
+//                    recyclerView.adapter = productAdapter
+
+
                 }
             }
         })
@@ -218,6 +264,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         val filterBy = if (radioBrand.isChecked) "brand" else "category"
+
+        // Clear the productList before making a new API call
+        productList.clear()
+
         getFoodInfo(searchTerm, filterBy)
     }
 }
