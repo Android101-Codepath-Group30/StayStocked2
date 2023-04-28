@@ -80,8 +80,8 @@ The following REQUIRED files are included:
   - [x] Checked off 2+ completed features
   - [x] 2+ GIFs of build progress
 
-- [ ] Our 🎥 Demo Video
-  - [ ] We have also added the Demo Video Link to the Group Info Form on the course portal.
+- [x] Our 🎥 Demo Video
+  - [x] We have also added the Demo Video Link to the Group Info Form on the course portal.
 
 The following EXTRA features are implemented:
 
@@ -91,11 +91,15 @@ The following EXTRA features are implemented:
 
 ## 🎥 Demo Video
 
-Here's a video that demos all of the app's implemented features. Click on the image to visit the Youtube page.
+Here's a video that demos all of the app's implemented features. 
+
+<img src="https://github.com/Android101-Codepath-Group30/StayStocked2/blob/main/demoAssets/final-demo.gif" width=300 height=550>
+
+Click on the image to visit the Demo Presentation on Youtube.
 
 [![Stay Stocked Video Demo](https://github.com/Android101-Codepath-Group30/StayStocked2/blob/main/demoAssets/Capture.PNG)]( https://youtu.be/bXQAHrzGYDk "Stay Stocked")
 
-VIDEO created with loom and Youtube
+VIDEO created with Loom and Youtube
 
 ## Notes
 
