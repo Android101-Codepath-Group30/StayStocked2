@@ -192,8 +192,7 @@ class MainActivity : AppCompatActivity() {
 
 
    private fun getFoodInfo(searchTerm: String, filterBy: String){
-//        val  userProductItemQuery = "food"
-       val foodURL = "https://api.kroger.com/v1/products?filter.term=$searchTerm&filter.$filterBy=30"
+        val foodURL = "https://api.kroger.com/v1/products?filter.term=$searchTerm&filter.limit=50"
         val client = OkHttpClient()
 
         val request = Request.Builder()
