@@ -9,4 +9,5 @@
     <string name="start">Let\'s get started</string>
     <string name="add_to_list">Add to List</string>
     <string name="added_to_list">Added %s to list</string>
+    <string name="my_list">My List</string>
 </resources>
