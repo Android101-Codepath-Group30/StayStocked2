@@ -74,18 +74,20 @@ The following REQUIRED features are completed:
 
 The following REQUIRED files are included:
 
-- [ ] Updated 📄 `project_spec.md`, which contains:
+- [x] Updated 📄 `project_spec.md`, which contains:
   - [X] App Overview (Milestone 1)
   - [X] App Spec (Milestone 1)
-  - [ ] Checked off 2+ completed features
-  - [ ] 2+ GIFs of build progress
+  - [x] Checked off 2+ completed features
+  - [x] 2+ GIFs of build progress
 
 - [ ] Our 🎥 Demo Video
   - [ ] We have also added the Demo Video Link to the Group Info Form on the course portal.
 
 The following EXTRA features are implemented:
 
-- [ ] List anything else that you added to improve your submission!
+- [X] Custom dark mode theme
+- [X] Splash page when user launches app
+- [X] Created a custom logo
 
 ## 🎥 Demo Video
 
@@ -97,4 +99,4 @@ VIDEO created with **your chosen video tool**
 
 ## Notes
 
-Here's a place for any other notes on this milestone!
+We enjoyed working on this app together.
