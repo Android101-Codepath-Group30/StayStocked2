@@ -1,5 +1,5 @@
 package com.example.staystock2
-//added my name to test if I can edit remote main: Lyton
+
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
