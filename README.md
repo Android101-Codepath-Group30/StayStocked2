@@ -91,11 +91,11 @@ The following EXTRA features are implemented:
 
 ## 🎥 Demo Video
 
-Here's a video that demos all of the app's implemented features:
+Here's a video that demos all of the app's implemented features. Click on the image to visit the Youtube page.
 
 [![Stay Stocked Video Demo](https://github.com/Android101-Codepath-Group30/StayStocked2/blob/main/demoAssets/Capture.PNG)]( https://youtu.be/bXQAHrzGYDk "Stay Stocked")
 
-VIDEO created with **your chosen video tool**
+VIDEO created with loom and Youtube
 
 ## Notes
 
