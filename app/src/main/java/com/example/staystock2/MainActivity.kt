@@ -1,5 +1,5 @@
 package com.example.staystock2
-
+//added my name to test if I can edit remote main: Lyton
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -98,7 +98,6 @@ class MainActivity : AppCompatActivity() {
         // initialize the recyclerview with the productadapter
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.addItemDecoration(DividerItemDecoration(this@MainActivity, LinearLayoutManager.VERTICAL))
 
         // Set up the tooltip for the added items
         val tooltipText = addedProductNames.joinToString(separator = "\n")
