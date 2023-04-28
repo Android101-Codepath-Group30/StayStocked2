@@ -56,17 +56,6 @@ class MainActivity : AppCompatActivity() {
         radioBrand = findViewById(R.id.radioBrand)
         radioCategory = findViewById(R.id.radioCategory)
 
-        // Set up the listeners for search bar -Shi
-       /* searchBar.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                updateUserProductItemQuery()
-                true
-            } else {
-                false
-            }
-        }
-*/
-
         ///Gaby search bar
         searchBar.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
