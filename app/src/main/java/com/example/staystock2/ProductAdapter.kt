@@ -1,14 +1,17 @@
 package com.example.staystock2
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 
-class ProductAdapter(private val products: List<Product>) : RecyclerView.Adapter<ProductAdapter.ProductViewHolder>() {
+class ProductAdapter(private val context: Context, private val products: MutableList<Product>, private val onAddProductClick: (productName: String) -> Unit) : RecyclerView.Adapter<ProductAdapter.ProductViewHolder>() {
 
     inner class ProductViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val productImage: ImageView = view.findViewById(R.id.product_image)
@@ -31,6 +34,15 @@ class ProductAdapter(private val products: List<Product>) : RecyclerView.Adapter
         holder.productBrand.text = product.brand
         holder.productSize.text = product.size
         Glide.with(holder.itemView.context).load(product.imageUrl).into(holder.productImage)
+
+        holder.itemView.findViewById<Button>(R.id.add_to_list_button).setOnClickListener {
+            onAddToList(product.name)
+        }
+    }
+
+    private fun onAddToList(name: String) {
+        val message = context.getString(R.string.added_to_list, name)
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 
     override fun getItemCount(): Int {

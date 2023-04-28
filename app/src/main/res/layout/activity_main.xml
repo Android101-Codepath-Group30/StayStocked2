@@ -1,100 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/constraintTop"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="@color/brandSecond1"
     tools:context=".MainActivity">
 
-    <View
-        android:id="@+id/background_view"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintTop"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/brandSecond1" />
+        tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/heading"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:fontFamily="@font/fredoka_one"
-        android:includeFontPadding="true"
-        android:text="@string/staystock"
-        android:textAlignment="center"
-        android:textColor="@color/brand1"
-        android:textSize="40sp"
-        app:layout_constraintEnd_toEndOf="@id/background_view"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="@id/background_view"
-        app:layout_constraintTop_toTopOf="@id/background_view" />
+        <View
+            android:id="@+id/background_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/brandSecond1" />
 
-
-
-    <EditText
-        android:id="@+id/search_bar"
-        android:layout_width="294dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="52dp"
-        android:background="@drawable/rounded_corner"
-        android:drawableStart="@drawable/ic_search_foreground"
-        android:ems="10"
-        android:hint="@string/search_text"
-        android:inputType="text"
-        android:padding="5dp"
-        android:textColorHint="@color/brandHint1"
-        app:layout_constraintEnd_toEndOf="@id/background_view"
-        app:layout_constraintStart_toStartOf="@id/background_view"
-        app:layout_constraintTop_toTopOf="@id/heading" />
-
-    <RadioGroup
-        android:id="@+id/radioGrp"
-        android:layout_width="294dp"
-        android:layout_height="54dp"
-        android:layout_marginTop="4dp"
-        android:background="@drawable/rounded_corner"
-        android:orientation="horizontal"
-        app:circularflow_radiusInDP="30dp"
-        app:layout_constraintEnd_toEndOf="@id/background_view"
-        app:layout_constraintStart_toStartOf="@id/background_view"
-        app:layout_constraintTop_toBottomOf="@id/search_bar">
-
-        <RadioButton
-            android:id="@+id/radioBrand"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_marginStart="20dp"
-            android:layout_weight="1"
-            android:buttonTint="@color/brandSecond1"
-            android:gravity="center_vertical|center_horizontal"
-            android:text="@string/brand"
+        <TextView
+            android:id="@+id/heading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/fredoka_one"
+            android:includeFontPadding="true"
+            android:text="@string/staystock"
             android:textAlignment="center"
-            android:textColor="@color/white" />
+            android:textColor="@color/brand1"
+            android:textSize="40sp"
+            app:layout_constraintEnd_toEndOf="@id/background_view"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="@id/background_view"
+            app:layout_constraintTop_toTopOf="@id/background_view" />
 
-        <RadioButton
-            android:id="@+id/radioCategory"
-            android:layout_width="0dp"
+
+
+        <EditText
+            android:id="@+id/search_bar"
+            android:layout_width="294dp"
             android:layout_height="48dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginEnd="20dp"
-            android:layout_weight="1"
-            android:gravity="center_vertical|center_horizontal"
-            android:buttonTint="@color/brandSecond1"
-            android:checked="true"
-            android:text="@string/category"
-            android:textAlignment="center"
-            android:textColor="@color/white"/>
+            android:layout_marginTop="52dp"
+            android:background="@drawable/rounded_corner"
+            android:drawableStart="@drawable/ic_search_foreground"
+            android:ems="10"
+            android:hint="@string/search_text"
+            android:inputType="text"
+            android:padding="5dp"
+            android:textColorHint="@color/brandHint1"
+            app:layout_constraintEnd_toEndOf="@id/background_view"
+            app:layout_constraintStart_toStartOf="@id/background_view"
+            app:layout_constraintTop_toTopOf="@id/heading" />
 
-    </RadioGroup>
+        <RadioGroup
+            android:id="@+id/radioGrp"
+            android:layout_width="294dp"
+            android:layout_height="54dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/rounded_corner"
+            android:orientation="horizontal"
+            app:circularflow_radiusInDP="30dp"
+            app:layout_constraintEnd_toEndOf="@id/background_view"
+            app:layout_constraintStart_toStartOf="@id/background_view"
+            app:layout_constraintTop_toBottomOf="@id/search_bar">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="574dp"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="@id/background_view"
-        app:layout_constraintStart_toStartOf="@id/background_view"
-        app:layout_constraintTop_toBottomOf="@+id/radioGrp" />
+            <RadioButton
+                android:id="@+id/radioBrand"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="20dp"
+                android:layout_weight="1"
+                android:buttonTint="@color/brandSecond1"
+                android:gravity="center_vertical|center_horizontal"
+                android:text="@string/brand"
+                android:textAlignment="center"
+                android:textColor="@color/white" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <RadioButton
+                android:id="@+id/radioCategory"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginEnd="20dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical|center_horizontal"
+                android:buttonTint="@color/brandSecond1"
+                android:checked="true"
+                android:text="@string/category"
+                android:textAlignment="center"
+                android:textColor="@color/white"/>
+
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/list_tooltip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="My List"
+            android:textColor="@color/white"
+            android:background="@drawable/rounded_corner"
+            android:padding="8dp"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="@id/background_view"
+            app:layout_constraintStart_toStartOf="@id/background_view"
+            app:layout_constraintTop_toBottomOf="@+id/radioGrp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="574dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="@id/background_view"
+            app:layout_constraintStart_toStartOf="@id/background_view"
+            app:layout_constraintTop_toBottomOf="@+id/list_tooltip" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>
