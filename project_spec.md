@@ -110,9 +110,9 @@ For Milestone 2, include **2+ GIFs** of the build process here!
  </tr>
 </table>
 
-### Final Interation
+### Final Iteration
 
-<img src="" width=300 height=500>
+<img src="https://github.com/Android101-Codepath-Group30/StayStocked2/blob/main/demoAssets/final-demo.gif" width=300 height=550>
 
 ## License
 
