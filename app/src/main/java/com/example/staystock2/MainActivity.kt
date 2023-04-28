@@ -3,6 +3,8 @@ package com.example.staystock2
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
@@ -14,8 +16,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.TooltipCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.codepath.asynchttpclient.AsyncHttpClient
-import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler
 import okhttp3.*
 import org.json.JSONObject
 import java.io.IOException
@@ -24,6 +24,7 @@ import android.view.ViewGroup
 import android.widget.PopupWindow
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.recyclerview.widget.DividerItemDecoration
 
 
 class MainActivity : AppCompatActivity() {
@@ -60,8 +61,8 @@ class MainActivity : AppCompatActivity() {
 //        radioBrand = findViewById(R.id.radioBrand)
 //        radioCategory = findViewById(R.id.radioCategory)
 
-        // Set up the listeners for search bar
-        searchBar.setOnEditorActionListener { _, actionId, _ ->
+        // Set up the listeners for search bar -Shi
+       /* searchBar.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 updateUserProductItemQuery()
                 true
@@ -69,6 +70,22 @@ class MainActivity : AppCompatActivity() {
                 false
             }
         }
+*/
+
+        ///Gaby search bar
+        searchBar.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                val searchText = s.toString()
+                updateUserProductItemQuery(searchText)
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+        })
+
+
+
 
         // Set up the listeners for radio buttons
 //        radioBrand.setOnCheckedChangeListener { _, isChecked ->
@@ -82,17 +99,28 @@ class MainActivity : AppCompatActivity() {
 //                updateUserProductItemQuery()
 //            }
 //        }
-
+        
         // initialize the recyclerview with the productadapter
         recyclerView = findViewById(R.id.recyclerView)
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = productAdapter
+        recyclerView.layoutManager = LinearLayoutManager(this)        
+
+        recyclerView.addItemDecoration(DividerItemDecoration(this@MainActivity, LinearLayoutManager.VERTICAL))
+
 
         // Set up the tooltip for the added items
         tooltipTextView = createTooltipTextView()
         tooltip = createTooltip()
 
+
         // Show the tooltip when the list button is clicked
+
+        val tooltip = PopupWindow(tooltipTextView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
+            isOutsideTouchable = true
+            isFocusable = true
+        }
+
+       // Show the tooltip when the list button is clicked
+
         findViewById<View>(R.id.list_tooltip).setOnClickListener {
             showTooltip(it)
         }
@@ -146,39 +174,13 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    private fun getFoodInfoAsy(){
-        val  userProductItemQuery = "food"
-        val foodURL = "https://api.kroger.com/v1/products?filter.term=$userProductItemQuery&filter.item=100"
-        val client = AsyncHttpClient()
 
-        client[foodURL, object : JsonHttpResponseHandler() {
-            override fun onSuccess(
-                statusCode: Int,
-                headers: Headers,
-                json: JsonHttpResponseHandler.JSON
-            ) {
-                Log.d("Autho Food JSON", "query response successful $json")
-
-                val dataObject = json.jsonObject.getJSONObject("data")
-
-
-            }
-
-            override fun onFailure(
-                statusCode: Int,
-                headers: Headers?,
-                errorResponse: String,
-                throwable: Throwable?
-            ) {
-                Log.d("Autho Food Error", errorResponse)
-            }
-        }]
-
-    }
+    
 
 
    private fun getFoodInfo(searchTerm: String){
         val foodURL = "https://api.kroger.com/v1/products?filter.term=$searchTerm&filter.limit=50"
+
         val client = OkHttpClient()
 
         val request = Request.Builder()
@@ -208,6 +210,10 @@ class MainActivity : AppCompatActivity() {
                     // to populate the productList with the data from the API and update the RecyclerView:
                     val data = jsonObject.getJSONArray("data")
 
+                    val length = data.length()
+                    Log.d("Food", "$length")
+
+                    //Parse data, Create Product class, and add to productList
                     for (i in 0 until data.length()) {
                         val item = data.getJSONObject(i)
                         val productId = item.optString("productId")
@@ -226,25 +232,24 @@ class MainActivity : AppCompatActivity() {
                         productList.add(Product(productId, productName, brandName, category, productSize, imageUrl))
                     }
 
+
                     this@MainActivity.runOnUiThread {
+
                         productAdapter.updateData(productList)
+                        recyclerView.layoutManager = LinearLayoutManager(this@MainActivity)
                         recyclerView.adapter?.notifyDataSetChanged()
                     }
+
+                   
                 }
             }
         })
-   }
+    }
 
-    private fun updateUserProductItemQuery() {
-        var searchTerm = searchBar.text.toString()
 
-        // Use "food" as the default searchTerm if the search bar is empty
-        if (searchTerm.isEmpty()) {
-            searchTerm = "food"
-        }
 
-//        val filterBy = if (radioBrand.isChecked) "brand" else "category"
-
+    private fun updateUserProductItemQuery( searchTerm: String = "food") {
+        
         // Clear the productList before making a new API call
         productList.clear()
 
