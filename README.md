@@ -93,7 +93,7 @@ The following EXTRA features are implemented:
 
 Here's a video that demos all of the app's implemented features:
 
-[![Stay Stocked Video Demo]()]( https://youtu.be/bXQAHrzGYDk "Stay Stocked")
+[![Stay Stocked Video Demo](https://github.com/Android101-Codepath-Group30/StayStocked2/blob/main/demoAssets/Capture.PNG)]( https://youtu.be/bXQAHrzGYDk "Stay Stocked")
 
 VIDEO created with **your chosen video tool**
 
