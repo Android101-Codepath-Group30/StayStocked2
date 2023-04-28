@@ -48,10 +48,10 @@ The Stay stocked app is a user-friendly mobile application designed to help indi
 
 Required Features:
 
-- Users can search for food of choice e.g bread, salt
-- User can view food item information  
-- Users can save item to a list
-- User can view items save to list
+- [x] Users can search for food of choice e.g bread, salt
+- [x] User can view food item information  
+- [x] Users can save item to a list
+- [x] User can view items save to list
 
 Stretch Features:
 
@@ -71,14 +71,14 @@ Stretch Features:
 Required Feature
 
 - **Kroger**
-    - **Users can search for food of choice**
+    - [X] **Users can search for food of choice**
       - => User type a search term ( for example bread, beer, etc)
       - => Results display based on the recycler view
-    - **Users can add items to list**
+    - [X] **Users can add items to list**
       - => User can find food item 
       - => Users click on a button to add item to My List
       - => Toast displays select item is added to list
-    - **User food items on list**
+    - [X] **User can view food items on list**
       - => User click MyList buttons
       - => Toast items all items saved on list
 
