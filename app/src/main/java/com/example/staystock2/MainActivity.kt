@@ -14,8 +14,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.TooltipCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.codepath.asynchttpclient.AsyncHttpClient
-import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler
 import okhttp3.*
 import org.json.JSONObject
 import java.io.IOException
@@ -119,7 +117,7 @@ class MainActivity : AppCompatActivity() {
             isFocusable = true
         }
 
-// Show the tooltip when the list button is clicked
+       // Show the tooltip when the list button is clicked
         findViewById<View>(R.id.list_tooltip).setOnClickListener {
             tooltip.showAsDropDown(it, 0, 0, Gravity.TOP or Gravity.START)
         }
@@ -232,53 +230,16 @@ class MainActivity : AppCompatActivity() {
                         productList.add(Product(productId, productName, brandName, category, productSize, imageUrl))
                     }
 
-                  /*  this@MainActivity.runOnUiThread {
-                        // This code block runs on the UI thread
 
-                        // Set up the RecyclerView adapter
-                        recyclerView.adapter = ProductAdapter(this@MainActivity, productList) { productName ->
-                            // Callback for when a product name is added to the list
+                    this@MainActivity.runOnUiThread {
+                        val productAdapter = ProductAdapter(this@MainActivity, productList) { productName ->
                             addedProductNames.add(productName)
                             Toast.makeText(this@MainActivity, "$productName added to list", Toast.LENGTH_SHORT).show()
                         }
-
-                        // Set up the RecyclerView layout manager
+                        recyclerView.adapter = productAdapter
                         recyclerView.layoutManager = LinearLayoutManager(this@MainActivity)
-
-                        // Notify the adapter that the data has changed
-                        recyclerView.adapter.notifyDataSetChanged()
+                        productAdapter.notifyDataSetChanged()
                     }
-*/
-                    this@MainActivity.runOnUiThread {
-                        // This code block runs on the UI thread
-
-                        // Create or update the ProductAdapter as necessary
-                        val adapter = recyclerView.adapter as? ProductAdapter
-                        if (adapter != null) {
-                            // Update the existing adapter with new data
-                            adapter.productList = productList
-                            adapter.notifyDataSetChanged()
-                        } else {
-                            // Create a new adapter if one does not already exist
-                            recyclerView.adapter = ProductAdapter(this@MainActivity, productList) { productName ->
-                                // Callback for when a product name is added to the list
-                                addedProductNames.add(productName)
-                                Toast.makeText(this@MainActivity, "$productName added to list", Toast.LENGTH_SHORT).show()
-                            }
-                        }
-
-                        // Set up the RecyclerView layout manager
-                        recyclerView.layoutManager = LinearLayoutManager(this@MainActivity)
-                    }
-
-                    /* runOnUiThread {
-                         val adapter = ProductAdapter(productList)
-                         recyclerView.adapter = adapter
-                         recyclerView.layoutManager = LinearLayoutManager(this@MainActivity)
-                         adapter.notifyDataSetChanged()
-                     }
- */
-
 
                 }
             }
