@@ -72,7 +72,7 @@ class MainActivity : AppCompatActivity() {
         // initialize the recyclerview with the productadapter
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
-//        recyclerView.adapter = productAdapter
+        recyclerView.adapter = productAdapter
         recyclerView.addItemDecoration(DividerItemDecoration(this@MainActivity, LinearLayoutManager.VERTICAL))
 
 
