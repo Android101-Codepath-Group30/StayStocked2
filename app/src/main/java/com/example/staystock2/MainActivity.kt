@@ -42,9 +42,6 @@ class MainActivity : AppCompatActivity() {
 
     // below is for search
     private lateinit var searchBar: EditText
-//    private lateinit var radioGroup: RadioGroup
-//    private lateinit var radioBrand: RadioButton
-//    private lateinit var radioCategory: RadioButton
 
     // below is for api call
 
@@ -58,19 +55,6 @@ class MainActivity : AppCompatActivity() {
 
         // initialize the search bar and radio buttons
         searchBar = findViewById(R.id.search_bar)
-//        radioBrand = findViewById(R.id.radioBrand)
-//        radioCategory = findViewById(R.id.radioCategory)
-
-        // Set up the listeners for search bar -Shi
-       /* searchBar.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                updateUserProductItemQuery()
-                true
-            } else {
-                false
-            }
-        }
-*/
 
         ///Gaby search bar
         searchBar.addTextChangedListener(object : TextWatcher {
@@ -84,26 +68,11 @@ class MainActivity : AppCompatActivity() {
             override fun afterTextChanged(s: Editable?) {}
         })
 
-
-
-
-        // Set up the listeners for radio buttons
-//        radioBrand.setOnCheckedChangeListener { _, isChecked ->
-//            if (isChecked) {
-//                updateUserProductItemQuery()
-//            }
-//        }
-
-//        radioCategory.setOnCheckedChangeListener { _, isChecked ->
-//            if (isChecked) {
-//                updateUserProductItemQuery()
-//            }
-//        }
         
         // initialize the recyclerview with the productadapter
         recyclerView = findViewById(R.id.recyclerView)
-        recyclerView.layoutManager = LinearLayoutManager(this)        
-
+        recyclerView.layoutManager = LinearLayoutManager(this)
+//        recyclerView.adapter = productAdapter
         recyclerView.addItemDecoration(DividerItemDecoration(this@MainActivity, LinearLayoutManager.VERTICAL))
 
 
@@ -127,7 +96,7 @@ class MainActivity : AppCompatActivity() {
 
         // Get the authorization and update the product list for the first time
         getAuthorization()
-//        updateUserProductItemQuery()
+        updateUserProductItemQuery()
     }
 
     private fun getAuthorization() {
