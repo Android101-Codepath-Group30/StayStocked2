@@ -77,6 +77,7 @@ class MainActivity : AppCompatActivity() {
         recyclerView.addItemDecoration(DividerItemDecoration(this@MainActivity, LinearLayoutManager.VERTICAL))
 
 
+
         // Set up the tooltip for the added items
         tooltipTextView = createTooltipTextView()
         tooltip = createTooltip()
