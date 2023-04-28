@@ -56,21 +56,6 @@
         app:layout_constraintStart_toEndOf="@id/product_image"
         app:layout_constraintTop_toBottomOf="@id/category" />
 
-    <!-- original
-    <TextView
-        android:id="@+id/product_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="10dp"
-        android:text="@string/product_name"
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        android:layout_marginRight="10dp"
-        app:layout_constraintStart_toEndOf="@id/product_image"
-        app:layout_constraintTop_toBottomOf="@id/category" />
-    -->
-
     <TextView
         android:id="@+id/product_brand"
         android:layout_width="0dp"
