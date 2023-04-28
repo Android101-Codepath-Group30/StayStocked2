@@ -94,18 +94,25 @@ Required Feature
 
 ## Build Notes
 
-Here's a place for any other notes on the app, it's creation 
-process, or what you learned this unit!  
+The most significant hurdle we faced while constructing our project was integrating everyone's code and managing merge conflicts. Additionally, we had to alter our initial concept due to inconsistencies between the information obtained from an API call and the information documented in the API. To illustrate, the API documentation listed "price" as a field present in the JSON object, but it was absent when we queried the json object from the product search component in the Kroger API.
 
 For Milestone 2, include **2+ GIFs** of the build process here!
+<table>
+  <tr>
+   <th>Iteration 1</th>
+   <th>Iteration 2</th>
+   <th>Iteration 3</th> 
+  </tr>
+  <tr>
+  <td><img src="https://github.com/Android101-Codepath-Group30/StayStocked2/blob/main/demoAssets/UI_stay_stock.png" width=300 height=300></td>
+  <td><img src="https://github.com/Android101-Codepath-Group30/StayStocked2/blob/main/demoAssets/search-toast.gif" width=300 height=500></td>
+ <td><img src="https://github.com/Android101-Codepath-Group30/StayStocked2/blob/main/demoAssets/StayStock2_thirdrun.gif" width=300 height=500></td>
+ </tr>
+</table>
 
-<img src="https://github.com/Android101-Codepath-Group30/StayStocked2/blob/main/demoAssets/UI_stay_stock.png" width=600>
+### Final Interation
 
-GIF One
-<img src="https://github.com/Android101-Codepath-Group30/StayStocked2/blob/main/demoAssets/search-toast.gif" width=600>
-
-GIF Two
-<img src="https://github.com/Android101-Codepath-Group30/StayStocked2/blob/main/demoAssets/StayStock2_thirdrun.gif" width=600>
+<img src="" width=300 height=500>
 
 ## License
 
