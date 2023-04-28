@@ -1,6 +1,8 @@
 package com.example.staystock2
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
@@ -12,8 +14,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.TooltipCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.codepath.asynchttpclient.AsyncHttpClient
-import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler
 import okhttp3.*
 import org.json.JSONObject
 import java.io.IOException
@@ -22,6 +22,7 @@ import android.view.ViewGroup
 import android.widget.PopupWindow
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+
 
 
 class MainActivity : AppCompatActivity() {
@@ -55,8 +56,8 @@ class MainActivity : AppCompatActivity() {
         radioBrand = findViewById(R.id.radioBrand)
         radioCategory = findViewById(R.id.radioCategory)
 
-        // Set up the listeners for search bar
-        searchBar.setOnEditorActionListener { _, actionId, _ ->
+        // Set up the listeners for search bar -Shi
+       /* searchBar.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 updateUserProductItemQuery()
                 true
@@ -64,6 +65,22 @@ class MainActivity : AppCompatActivity() {
                 false
             }
         }
+*/
+
+        ///Gaby search bar
+        searchBar.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                val searchText = s.toString()
+                updateUserProductItemQuery(searchText)
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+        })
+
+
+
 
         // Set up the listeners for radio buttons
         radioBrand.setOnCheckedChangeListener { _, isChecked ->
@@ -100,7 +117,7 @@ class MainActivity : AppCompatActivity() {
             isFocusable = true
         }
 
-// Show the tooltip when the list button is clicked
+       // Show the tooltip when the list button is clicked
         findViewById<View>(R.id.list_tooltip).setOnClickListener {
             tooltip.showAsDropDown(it, 0, 0, Gravity.TOP or Gravity.START)
         }
@@ -160,40 +177,9 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    private fun getFoodInfoAsy(){
-        val  userProductItemQuery = "food"
-        val foodURL = "https://api.kroger.com/v1/products?filter.term=$userProductItemQuery&filter.item=100"
-        val client = AsyncHttpClient()
-
-        client[foodURL, object : JsonHttpResponseHandler() {
-            override fun onSuccess(
-                statusCode: Int,
-                headers: Headers,
-                json: JsonHttpResponseHandler.JSON
-            ) {
-                Log.d("Autho Food JSON", "query response successful $json")
-
-                val dataObject = json.jsonObject.getJSONObject("data")
-
-
-            }
-
-            override fun onFailure(
-                statusCode: Int,
-                headers: Headers?,
-                errorResponse: String,
-                throwable: Throwable?
-            ) {
-                Log.d("Autho Food Error", errorResponse)
-            }
-        }]
-
-    }
-
-
-   private fun getFoodInfo(searchTerm: String, filterBy: String){
+    private fun getFoodInfo(searchTerm: String, filterBy: String){
 //        val  userProductItemQuery = "food"
-       val foodURL = "https://api.kroger.com/v1/products?filter.term=$searchTerm&filter.$filterBy=30"
+        val foodURL = "https://api.kroger.com/v1/products?filter.term=$searchTerm&filter.limit=30"
         val client = OkHttpClient()
 
         val request = Request.Builder()
@@ -222,6 +208,10 @@ class MainActivity : AppCompatActivity() {
                     // to populate the productList with the data from the API and update the RecyclerView:
                     val data = jsonObject.getJSONArray("data")
 
+                    val length = data.length()
+                    Log.d("Food", "$length")
+
+                    //Parse data, Create Product class, and add to productList
                     for (i in 0 until data.length()) {
                         val item = data.getJSONObject(i)
                         val productId = item.optString("productId")
@@ -240,29 +230,24 @@ class MainActivity : AppCompatActivity() {
                         productList.add(Product(productId, productName, brandName, category, productSize, imageUrl))
                     }
 
+
                     this@MainActivity.runOnUiThread {
-                        recyclerView.adapter = ProductAdapter(this@MainActivity, productList) { productName ->
+                        val productAdapter = ProductAdapter(this@MainActivity, productList) { productName ->
                             addedProductNames.add(productName)
                             Toast.makeText(this@MainActivity, "$productName added to list", Toast.LENGTH_SHORT).show()
                         }
+                        recyclerView.adapter = productAdapter
+                        recyclerView.layoutManager = LinearLayoutManager(this@MainActivity)
+                        productAdapter.notifyDataSetChanged()
                     }
-
-//                    recyclerView.adapter = productAdapter
-
 
                 }
             }
         })
-   }
+    }
 
-    private fun updateUserProductItemQuery() {
-        var searchTerm = searchBar.text.toString()
-
-        // Use "food" as the default searchTerm if the search bar is empty
-        if (searchTerm.isEmpty()) {
-            searchTerm = "food"
-        }
-
+    private fun updateUserProductItemQuery( searchTerm: String = "food") {
+        //For radio buttons
         val filterBy = if (radioBrand.isChecked) "brand" else "category"
 
         // Clear the productList before making a new API call

@@ -28,7 +28,7 @@ class ProductAdapter(private val context: Context, private val products: Mutable
 
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
         val product = products[position]
-        val cleanedProductName = product.name.replace(Regex("[^A-Za-z0-9 ]"), "_")
+        val cleanedProductName = product.name.replace(Regex("[^A-Za-z0-9 ]"), "")
         holder.productName.text = cleanedProductName
         holder.category.text = product.category
         holder.productBrand.text = product.brand
