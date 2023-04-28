@@ -1,6 +1,7 @@
 package com.example.staystock2
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -43,9 +44,17 @@ class ProductAdapter(private val context: Context, private val products: Mutable
     private fun onAddToList(name: String) {
         val message = context.getString(R.string.added_to_list, name)
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+        onAddProductClick(name) // Add this line to call the lambda function passed to the adapter
     }
 
     override fun getItemCount(): Int {
         return products.size
+    }
+
+    fun updateData(newData: List<Product>) {
+        Log.d("AdapterUpdate", "Updating adapter data")
+        products.clear()
+        products.addAll(newData)
+        notifyDataSetChanged()
     }
 }
