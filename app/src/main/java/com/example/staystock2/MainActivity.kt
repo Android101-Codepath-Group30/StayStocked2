@@ -1,5 +1,8 @@
 package com.example.staystock2
-//added my name to test if I can edit remote main: Lyton
+
+import android.annotation.SuppressLint
+import android.graphics.Color
+
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -28,21 +31,20 @@ import androidx.recyclerview.widget.DividerItemDecoration
 class MainActivity : AppCompatActivity() {
     lateinit var builder: AlertDialog.Builder
 
-    private lateinit var productAdapter: ProductAdapter
     private val addedProductNames = mutableListOf<String>()
 
-//    below is for recyclerview
+    private lateinit var tooltip: PopupWindow
+    private lateinit var tooltipTextView: TextView
+
+    // below is for recyclerview
 
     private lateinit var recyclerView: RecyclerView
     private val productList = mutableListOf<Product>()
 
     // below is for search
     private lateinit var searchBar: EditText
-    private lateinit var radioGroup: RadioGroup
-    private lateinit var radioBrand: RadioButton
-    private lateinit var radioCategory: RadioButton
 
-//    below is for api call
+    // below is for api call
 
     var accessToken = ""
 
@@ -51,21 +53,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         builder = AlertDialog.Builder(this)
 
+
         // initialize the search bar and radio buttons
         searchBar = findViewById(R.id.search_bar)
-        radioBrand = findViewById(R.id.radioBrand)
-        radioCategory = findViewById(R.id.radioCategory)
-
-        // Set up the listeners for search bar -Shi
-       /* searchBar.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                updateUserProductItemQuery()
-                true
-            } else {
-                false
-            }
-        }
-*/
 
         ///Gaby search bar
         searchBar.addTextChangedListener(object : TextWatcher {
@@ -79,38 +69,21 @@ class MainActivity : AppCompatActivity() {
             override fun afterTextChanged(s: Editable?) {}
         })
 
-
-
-
-        // Set up the listeners for radio buttons
-        radioBrand.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
-                updateUserProductItemQuery()
-            }
-        }
-
-        radioCategory.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
-                updateUserProductItemQuery()
-            }
-        }
-
+        
         // initialize the recyclerview with the productadapter
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.adapter = productAdapter
+        recyclerView.addItemDecoration(DividerItemDecoration(this@MainActivity, LinearLayoutManager.VERTICAL))
+
+
 
         // Set up the tooltip for the added items
-        val tooltipText = addedProductNames.joinToString(separator = "\n")
-        val tooltipTextView = TextView(this).apply {
-            text = tooltipText
-            setPadding(
-                resources.getDimensionPixelOffset(R.dimen.spacing_small),
-                resources.getDimensionPixelOffset(R.dimen.spacing_small),
-                resources.getDimensionPixelOffset(R.dimen.spacing_small),
-                resources.getDimensionPixelOffset(R.dimen.spacing_small)
-            )
-            setBackgroundResource(R.drawable.tooltip_background) // Create a custom background for the tooltip
-        }
+        tooltipTextView = createTooltipTextView()
+        tooltip = createTooltip()
+
+
+        // Show the tooltip when the list button is clicked
 
         val tooltip = PopupWindow(tooltipTextView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
             isOutsideTouchable = true
@@ -118,14 +91,9 @@ class MainActivity : AppCompatActivity() {
         }
 
        // Show the tooltip when the list button is clicked
-        findViewById<View>(R.id.list_tooltip).setOnClickListener {
-            tooltip.showAsDropDown(it, 0, 0, Gravity.TOP or Gravity.START)
-        }
 
-        // Set up the adapter for the recyclerview
-        recyclerView.adapter = ProductAdapter(this, productList) { productName ->
-            addedProductNames.add(productName)
-            Toast.makeText(this, "$productName added to list", Toast.LENGTH_SHORT).show()
+        findViewById<View>(R.id.list_tooltip).setOnClickListener {
+            showTooltip(it)
         }
 
         // Get the authorization and update the product list for the first time
@@ -177,9 +145,13 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    private fun getFoodInfo(searchTerm: String, filterBy: String){
-//        val  userProductItemQuery = "food"
-        val foodURL = "https://api.kroger.com/v1/products?filter.term=$searchTerm&filter.limit=30"
+
+    
+
+
+   private fun getFoodInfo(searchTerm: String){
+        val foodURL = "https://api.kroger.com/v1/products?filter.term=$searchTerm&filter.limit=50"
+
         val client = OkHttpClient()
 
         val request = Request.Builder()
@@ -195,6 +167,7 @@ class MainActivity : AppCompatActivity() {
                 Log.d("Autho Food", "failure")
             }
 
+            @SuppressLint("NotifyDataSetChanged")
             override fun onResponse(call: Call, response: Response) {
                 if (response.isSuccessful) {
                     val responseBody = response.body?.string()
@@ -232,27 +205,68 @@ class MainActivity : AppCompatActivity() {
 
 
                     this@MainActivity.runOnUiThread {
-                        val productAdapter = ProductAdapter(this@MainActivity, productList) { productName ->
-                            addedProductNames.add(productName)
-                            Toast.makeText(this@MainActivity, "$productName added to list", Toast.LENGTH_SHORT).show()
-                        }
-                        recyclerView.adapter = productAdapter
+
+                        productAdapter.updateData(productList)
                         recyclerView.layoutManager = LinearLayoutManager(this@MainActivity)
-                        productAdapter.notifyDataSetChanged()
+                        recyclerView.adapter?.notifyDataSetChanged()
                     }
 
+                   
                 }
             }
         })
     }
 
-    private fun updateUserProductItemQuery( searchTerm: String = "food") {
-        //For radio buttons
-        val filterBy = if (radioBrand.isChecked) "brand" else "category"
 
+
+    private fun updateUserProductItemQuery( searchTerm: String = "food") {
+        
         // Clear the productList before making a new API call
         productList.clear()
 
-        getFoodInfo(searchTerm, filterBy)
+        getFoodInfo(searchTerm)
+    }
+
+    private fun createTooltip(): PopupWindow {
+        return PopupWindow(tooltipTextView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
+            isOutsideTouchable = true
+            isFocusable = true
+        }
+    }
+
+    private fun createTooltipTextView(): TextView {
+        val tooltipText = addedProductNames.joinToString(separator = "\n")
+        return TextView(this).apply {
+            text = tooltipText
+            setPadding(
+                resources.getDimensionPixelOffset(R.dimen.spacing_small),
+                resources.getDimensionPixelOffset(R.dimen.spacing_small),
+                resources.getDimensionPixelOffset(R.dimen.spacing_small),
+                resources.getDimensionPixelOffset(R.dimen.spacing_small)
+            )
+            setBackgroundResource(R.drawable.tooltip_background) // Create a custom background for the tooltip
+        }
+    }
+
+    private fun showTooltip(anchorView: View) {
+        val tooltipText = if (addedProductNames.isEmpty()) {
+            "No items added" // Show a default message if the list is empty
+        } else {
+            addedProductNames.joinToString(separator = "\n")
+        }
+
+        tooltipTextView.apply {
+            text = tooltipText // update the tooltip text
+            setTextColor(Color.BLACK) // set the text color to black
+            setBackgroundColor(Color.WHITE) // set the background color to white
+        }
+
+        tooltip.showAsDropDown(anchorView, 0, 0, Gravity.TOP or Gravity.START)
+    }
+
+    private val productAdapter = ProductAdapter(this, mutableListOf()) { productName ->
+        addedProductNames.add(productName)
+        Toast.makeText(this, "$productName added to list", Toast.LENGTH_SHORT).show()
+        showTooltip(findViewById(R.id.list_tooltip))
     }
 }
