@@ -13,5 +13,5 @@
 .externalNativeBuild
 .cxx
 local.properties
-/app/src/main/res/values/secrets.xml
-
+secret
+**/*/res/values/secrets.xml
